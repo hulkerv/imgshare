@@ -50,6 +50,7 @@ app.use(multer({
 
 // Routes
 app.use(require('./routes/index.routes'));
+app.use(require('./routes/image.routes'));
 
 // Static Files
 app.use('/public',  express.static(path.join(__dirname, 'public')))
