@@ -1,0 +1,71 @@
+Guia de trabajo
+
+01.estructura del proyecto
+02.Construir el servidor
+03.Base de datos
+04.modelos de la base de datos
+05.Vistas (handlebars)
+06.Bootstrap y fontawesome
+07.Rutas
+08.rutas para las notas
+09.Handlebasr y formularios para las notas
+10.Renderizar lista de notas con handlebars
+11.Eliminar notas con method-override
+12.Actaualización de notas
+13.Mensajes con coonnect-flash
+14.vistas del login y el registro de usuarios
+15.registro de usuario o signup
+16.login de usuarios con passport a bcrypt
+17.Proteger las rutas de express con passport
+18. 
+
+
+
+"dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.10.0",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.3.0"
+    "errorhandler": "^1.5.1",
+    "fs-extra": "^9.0.1",
+    "md5": "^2.3.0",
+    "moment": "^2.29.1",
+    "multer": "^1.4.2",
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4",
+    "npm-check-updates": "^7.1.1",
+    "supervisor": "^0.12.0"
+  }
+-----------------------------------------------------------------------------
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/uploads'),
+    filename: (req, file, cb) => {
+        cb(null, uuidv4() + path.extname(file.originalname).toLowerCase());
+    },
+    
+});
+app.use(multer({
+    storage,
+    dest: path.join(__dirname, 'public/uploads'),
+    limits:{fileSize: 1000000},
+    fileFilter: (req, file, cb) =>{
+        const filetypes = /jpeg|jpg|png|gif/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(path.extname(file.originalname));
+        if(mimetype && extname){
+            return cb(null, true);
+        }
+        cb("Error: El Archivo debe ser una imagen valida");
+    }
+}).single('image'));
+
