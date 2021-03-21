@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const handlebars = require('handlebars')
 const morgan = require('morgan');
 const multer = require('multer');
 const {v4:uuidv4} = require('uuid');
 const errorHandler = require('errorhandler');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 // Initializatios
 const app = express();
 
@@ -19,14 +20,15 @@ app.engine('hbs', exphbs({
     partialsDir: path.join(app.get('views'), 'partials'),
     layautsDir: path.join(app.get('views'), 'layouts'),
     extname:'.hbs',
-    helpers: require('./helpers')
+    helpers: require('./helpers'),
+    handlebars: allowInsecurePrototypeAccess(handlebars)
 }));
 app.set('view engine', '.hbs');
 
 // Midlewares
 app.use(morgan('dev'));
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'public/uploads/temp'),
+    destination: path.join(__dirname, 'public/uploads'),
     filename: (req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname).toLowerCase());
     },
@@ -34,7 +36,7 @@ const storage = multer.diskStorage({
 });
 app.use(multer({
     storage,
-    dest: path.join(__dirname, 'public/uploads/temp'),
+    dest: path.join(__dirname, 'public/uploads'),
     limits:{fileSize: 1000000},
 }).single('image'));
 app.use(session({

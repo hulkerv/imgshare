@@ -48,3 +48,21 @@ Guia de trabajo
   }
 -----------------------------------------------------------------------------
 
+        <div class="card mt-2">
+            <div class="card-header bg-dark text-white">
+                <h3><i class="far fa-images"></i> Recent uploads</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {{#if images}}
+                        {{#each images}}
+                            <div class="col-md-4 p-2">
+                                <a href="/images/{{uniqueId}}">
+                                    <img src="/public/upload/{{filename}}" alt="" class="w-100 h-100 img-thumnail">
+                                </a>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
