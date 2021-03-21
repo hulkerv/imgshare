@@ -3,8 +3,12 @@ const path = require('path');
 const imgCtrl ={};
 
 // View Image
-imgCtrl.imageIndex= (req,res) => {
-    res.send('Image Index');
+imgCtrl.imageIndex= async (req,res) => {
+    const image = await Image.findOne({filename: {
+            $regex: req.params.image_id
+        }});
+    console.log(image);
+    res.render('image', {image});
 };
 
 // New Image
@@ -17,7 +21,7 @@ imgCtrl.newImage = async(req,res) => {
         newImage.title = req.body.title;
         newImage.description = req.body.description;
         newImage.filename = req.file.filename;
-        newImage.path ='/uploads/temp/' + req.file.filename;
+        newImage.path ='/uploads/' + req.file.filename;
         newImage.originalname = req.file.originalname;
         newImage.mimetype = req.file.mimetype;
         newImage.size = req.file.size;

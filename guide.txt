@@ -17,52 +17,39 @@ Guia de trabajo
 15.registro de usuario o signup
 16.login de usuarios con passport a bcrypt
 17.Proteger las rutas de express con passport
-18. 
-
-
-
-"dependencies": {
-    "@handlebars/allow-prototype-access": "^1.0.3",
-    "bcryptjs": "^2.4.3",
-    "connect-flash": "^0.1.1",
-    "express": "^4.17.1",
-    "express-handlebars": "^5.1.0",
-    "express-session": "^1.17.1",
-    "method-override": "^3.0.0",
-    "mongoose": "^5.10.0",
-    "morgan": "^1.10.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "socket.io": "^2.3.0"
-    "errorhandler": "^1.5.1",
-    "fs-extra": "^9.0.1",
-    "md5": "^2.3.0",
-    "moment": "^2.29.1",
-    "multer": "^1.4.2",
-  },
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "nodemon": "^2.0.4",
-    "npm-check-updates": "^7.1.1",
-    "supervisor": "^0.12.0"
-  }
 -----------------------------------------------------------------------------
 
-        <div class="card mt-2">
-            <div class="card-header bg-dark text-white">
-                <h3><i class="far fa-images"></i> Recent uploads</h3>
+<div class="container" id="confirm-remove"></div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between aling-items-center">
+                <h2>{{image.title}}</h2>
+                <button class="btn btn-danger" id="btn-delete" data-id="{{image.uniqueId}}">
+                    <i class="fa fa-times"></i> <span>Delete</span>
+                </button>
             </div>
             <div class="card-body">
-                <div class="row">
-                    {{#if images}}
-                        {{#each images}}
-                            <div class="col-md-4 p-2">
-                                <a href="/images/{{uniqueId}}">
-                                    <img src="/public/upload/{{filename}}" alt="" class="w-100 h-100 img-thumnail">
-                                </a>
-                            </div>
-                        {{/each}}
-                    {{/if}}
+                <p>{{image.description}}</p>
+                <div class="text-center">
+                    <img src="/public/upload/{{image.filename}}" alt="" class="img-fluid">
                 </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <form action="/images/{{image.uniqueId}}/like" method="post">
+                    <button class="btn btn-success" id="like-button">
+                        <i class="fas fa-thumbs-up"></i> Like
+                    </button>
+                </form>
+                <p>
+                    <span class="likes-count" id="likes"></span>
+                    <i class="fas fa-heart" style="color:gray" id="heart">{{image.likes}}</i>
+                </p>
+                <p>
+                    <i class="fas fa-eye"></i> {{image.views}}
+                </p>
+                <p>
+                    <i class="far fa-clock"></i> {{timeago image.timestamp}}
+                </p>
             </div>
         </div>

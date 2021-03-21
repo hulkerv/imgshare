@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between aling-items-center">
+                <h2>{{image.title}}</h2>
+                <button class="btn btn-danger"><span>
+                    <i class="fa fa-times"></i> Delete</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="/public/uploads/{{image.filename}}" class="img-fluid">
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between aling-items-center">
+                <form action="">
+                    <button class="btn btn-success" id="like-button">
+                        <i class="fas fa-thumbs-up"></i> Like
+                    </button>
+                </form>
+                <p>
+                    <span class="likes-count" id="likes"></span>
+                    <i class="fas fa-heart" id="heart" style="color:gray"></i>
+                </p>
+                <p>
+                    <i class="fas fa eye"></i>
+                </p>
+                <p>
+                    <i class="far fa-clock"></i> {{timeago image.created_at}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
