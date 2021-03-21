@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const multer = require('multer');
 const {v4:uuidv4} = require('uuid');
 const errorHandler = require('errorhandler');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 // Initializatios
 const app = express();
@@ -34,19 +36,23 @@ app.use(multer({
     storage,
     dest: path.join(__dirname, 'public/uploads/temp'),
     limits:{fileSize: 1000000},
-    fileFilter: (req, file, cb) =>{
-        const filetypes = /jpeg|jpg|png|gif/;
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(path.extname(file.originalname));
-        if(mimetype && extname){
-            return cb(null, true);
-        }
-        cb("Error: El Archivo debe ser una imagen valida");
-    }
 }).single('image'));
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+    
+}));
+app.use(flash());
 
 // Global Variables
-
+app.use((req, res, next) =>{
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
+});
 
 // Routes
 app.use(require('./routes/index.routes'));

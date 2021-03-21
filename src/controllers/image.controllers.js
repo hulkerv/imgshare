@@ -1,4 +1,5 @@
 const Image = require('../models/Image');
+const path = require('path');
 const imgCtrl ={};
 
 // View Image
@@ -8,16 +9,26 @@ imgCtrl.imageIndex= (req,res) => {
 
 // New Image
 imgCtrl.newImage = async(req,res) => {
+
     const newImage = new Image();
-    newImage.title = req.body.title;
-    newImage.description = req.body.description;
-    newImage.filename = req.file.filename;
-    newImage.path ='/uploads/temp/' + req.file.filename;
-    newImage.originalname = req.file.originalname;
-    newImage.mimetype = req.file.mimetype;
-    newImage.size = req.file.size;
-    await newImage.save();
-    res.redirect('/')  
+    const ext = path.extname(req.file.filename);
+    console.log(typeof ext);
+    if(ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.gif'){
+        newImage.title = req.body.title;
+        newImage.description = req.body.description;
+        newImage.filename = req.file.filename;
+        newImage.path ='/uploads/temp/' + req.file.filename;
+        newImage.originalname = req.file.originalname;
+        newImage.mimetype = req.file.mimetype;
+        newImage.size = req.file.size;
+        await newImage.save();
+        req.flash('success_msg','Image saved successfully');
+        res.redirect('/') 
+    }else{
+        req.flash('error_msg', 'The file type is not allowed');
+        res.redirect('/') 
+    };
+    
 };
 
 // Likes
