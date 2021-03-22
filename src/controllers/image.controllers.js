@@ -4,9 +4,7 @@ const imgCtrl ={};
 
 // View Image
 imgCtrl.imageIndex= async (req,res) => {
-    const image = await Image.findOne({filename: {
-            $regex: req.params.image_id
-        }});
+    const image = await Image.findOne({_id:req.params.image_id});
     console.log(image);
     res.render('image', {image});
 };

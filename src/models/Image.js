@@ -5,16 +5,14 @@ const ImageSchema = new Schema({
     title: {type: String},
     description: {type: String},
     filename: {type: String},
+    user: {type:String},
+    views: {type: Number, default: 0},
+    likes: {type: Number, default: 0},
     path: {type: String},
     originalname: {type: String},
     mimetype: {type: String},
     size: {type: Number},
     created_at: {type: Date, default: Date.now}
-});
-
-ImageSchema.virtual('uniqueId')
-    .get(function(){
-            return this.filename.replace(path.extname(this.filename), '')
 });
 
 module.exports = model('Image', ImageSchema);
